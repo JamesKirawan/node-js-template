@@ -7,6 +7,8 @@
     "test": "jest --coverage",
     "db:create": "npx sequelize db:create",
     "db:migrate": "npx sequelize db:migrate",
+    "db:seed": "npx sequelize db:seed:all",
+    "db:seed:undo": "npx sequelize db:seed:undo:all",
     "nodemon": "./node_modules/nodemon/bin/nodemon.js index.js",
     "start": "node index.js"
   },
