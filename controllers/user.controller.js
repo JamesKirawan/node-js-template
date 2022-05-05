@@ -56,7 +56,7 @@ exports.registerUser = async (req, res) => {
       }
     })
     .catch((e) => {
-      res.status(503).send({
+      res.status(500).send({
         status: "FAIL",
         message: "Gagal membuat user",
       });
