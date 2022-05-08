@@ -9,6 +9,7 @@
     "db:migrate": "npx sequelize db:migrate",
     "db:seed": "npx sequelize db:seed:all",
     "db:seed:undo": "npx sequelize db:seed:undo:all",
+    "db:migrate:undo": "npx sequelize db:migrate:undo",
     "nodemon": "./node_modules/nodemon/bin/nodemon.js index.js",
     "start": "node index.js"
   },

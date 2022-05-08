@@ -13,13 +13,54 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      full_name: DataTypes.STRING,
-      email: DataTypes.STRING,
-      username: DataTypes.STRING,
-      password: DataTypes.STRING,
-      profile_image_url: DataTypes.TEXT,
-      age: DataTypes.INTEGER,
-      phone_number: DataTypes.INTEGER,
+      full_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: false,
+        validate: {
+          is: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        },
+      },
+      username: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: false,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      profile_image_url: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        validate: {
+          isUrl: {
+            msg: "Must Be A Valid Url",
+          },
+        },
+      },
+      age: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          isNumeric: {
+            msg: "Must Be A Valid Integer",
+          },
+        },
+      },
+      phone_number: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          isNumeric: {
+            msg: "Must Be A Valid Integer",
+          },
+        },
+      },
     },
     {
       sequelize,

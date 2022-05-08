@@ -40,18 +40,20 @@ exports.registerUser = async (req, res) => {
               age: user.age,
               phone_number: user.phone_number,
             });
-            res.status(200).send({
-              status: "SUCCESS",
-              message: "User Berhasil Dibuat",
-              data: user,
-              token: token,
+            res.status(201).json({
+              user: {
+                email: user.email,
+                full_name: user.full_name,
+                username: user.username,
+                profile_image_url: user.profile_image_url,
+                age: user.age,
+                phone_number: user.phone_number,
+              },
             });
           })
           .catch((e) => {
-            res.status(503).send({
-              status: "FAIL",
-              message: "Gagal membuat user",
-            });
+            console.log(e);
+            res.status(503).json(e.errors);
           });
       }
     })
@@ -60,5 +62,46 @@ exports.registerUser = async (req, res) => {
         status: "FAIL",
         message: "Gagal membuat user",
       });
+    });
+};
+
+exports.loginUser = async (req, res) => {
+  const body = req.body;
+  const email = body.email;
+  const password = body.password;
+  await User.findOne({
+    where: {
+      email,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        return res.status(400).json({
+          name: "User Login Error",
+          message: `User's with email "${email}" not found`,
+        });
+      }
+
+      const isCorrect = comparePassword(password, user.password);
+
+      if (!isCorrect) {
+        return res.status(400).json({
+          name: "User Login Error",
+          message: `User's password with email "${email}" doesn't match`,
+        });
+      }
+      let payload = {
+        full_name: user.full_name,
+        email: user.email,
+        username: user.username,
+        profile_image_url: user.profile_image_url,
+        age: user.age,
+        phone_number: user.phone_number,
+      };
+      const token = generateToken(payload);
+      return res.status(200).json({ token });
+    })
+    .catch((err) => {
+      return res.status(401).json(err);
     });
 };

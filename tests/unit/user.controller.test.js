@@ -31,12 +31,12 @@ const testingData = {
 };
 
 describe("UserController.registerUser", () => {
-  it("should return 200", async () => {
+  it("should return 201", async () => {
     User.create.mockResolvedValue(userData);
     User.findOne.mockResolvedValue(null);
     req.body = userData;
     await UserController.registerUser(req, res);
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(201);
   });
   it("should return 400", async () => {
     User.findOne.mockResolvedValue({
